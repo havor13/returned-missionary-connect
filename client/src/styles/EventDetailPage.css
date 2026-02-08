@@ -1,0 +1,22 @@
+.event-detail {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.event-detail h2 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.event-detail p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.event-detail strong {
+  color: #3498db;
+}

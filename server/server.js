@@ -13,6 +13,9 @@ app.use(express.json());
 // Connect Database
 connectDB();
 
+// Serve uploaded files (profile photos, etc.)
+app.use("/uploads", express.static("server/uploads"));
+
 // Test route
 app.get("/", (req, res) => {
   res.send("Returned Missionary Connect API is running...");
@@ -23,12 +26,14 @@ const authRoutes = require("./routes/auth");
 const groupRoutes = require("./routes/groups");
 const postRoutes = require("./routes/posts");
 const eventRoutes = require("./routes/events");
+const userRoutes = require("./routes/users");
 
 // Mount routes
 app.use("/api/auth", authRoutes);
 app.use("/api/groups", groupRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/events", eventRoutes);
+app.use("/api/users", userRoutes);
 
 // Error handler middleware
 app.use(errorHandler);

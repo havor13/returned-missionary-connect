@@ -1,14 +1,16 @@
-// client/src/App.js
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// Main pages
+// Global components
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
+// Global pages
 import Dashboard from "./pages/Dashboard";
-import EventsPage from "./pages/EventsPage";
-import ProfilePage from "./pages/ProfilePage";
-import MessagingPage from "./pages/MessagingPage";
 import LoginPage from "./pages/LoginPage"; 
 import SignUpPage from "./pages/SignUpPage";
+import MessagingPage from "./pages/MessagingPage";
+import ProfilePage from "./pages/ProfilePage";
 
 // Admin section 
 import AdminPage from "./pages/Admin/AdminPage"; 
@@ -16,23 +18,30 @@ import UserManagementPage from "./pages/Admin/UserManagementPage";
 import GroupManagementPage from "./pages/Admin/GroupManagementPage"; 
 import EventManagementPage from "./pages/Admin/EventManagementPage";
 
-// Groups subpages
+// Groups module
 import GroupsPage from "./pages/Groups/GroupsPage";
 import GroupDetailPage from "./pages/Groups/GroupDetailPage";
 
-// Profile subpages
+// Profile module
 import ConnectionsPage from "./pages/Profile/ConnectionsPage";
 import MissionDetailsPage from "./pages/Profile/MissionDetailsPage";
 import TestimonyPage from "./pages/Profile/TestimonyPage";
 
-// Events section
+// Events module
 import EventsPage from "./pages/Events/EventsPage";
 import EventDetailPage from "./pages/Events/EventDetailPage";
 import CalendarEventsPage from "./pages/Events/CalendarEventsPage";
 
+// Simple ProtectedRoute wrapper
+const ProtectedRoute = ({ element }) => {
+  const token = localStorage.getItem("token");
+  return token ? element : <Navigate to="/login" />;
+};
+
 function App() {
   return (
     <Router>
+      <Navbar />
       <Routes>
         {/* Dashboard */}
         <Route path="/" element={<Dashboard />} />
@@ -43,34 +52,32 @@ function App() {
 
         {/* Events */}
         <Route path="/events" element={<EventsPage />} />
-
-        {/* Messaging */}
-        <Route path="/messaging" element={<MessagingPage />} />
-
-        {/* Login */}
-        <Route path="/login" element={<LoginPage />} />
-
-        {/* Signup */}
-        <Route path="/signup" element={<SignUpPage />} />
-
-         {/* Events */}
-        <Route path="/events" element={<EventsPage />} />
         <Route path="/events/:id" element={<EventDetailPage />} /> 
         <Route path="/events/calendar" element={<CalendarEventsPage />} />
-        
 
-        {/* Admin */}
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/users" element={<UserManagementPage />} />
-        <Route path="/admin/groups" element={<GroupManagementPage />} />
-        <Route path="/admin/events" element={<EventManagementPage />} />
+        {/* Messaging */}
+        <Route path="/messaging" element={<ProtectedRoute element={<MessagingPage />} />} />
 
-        {/* Profile */}
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/profile/connections" element={<ConnectionsPage />} />
-        <Route path="/profile/mission-details" element={<MissionDetailsPage />} />
-        <Route path="/profile/testimony" element={<TestimonyPage />} />
+        {/* Auth */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+
+        {/* Admin (protected) */}
+        <Route path="/admin" element={<ProtectedRoute element={<AdminPage />} />} />
+        <Route path="/admin/users" element={<ProtectedRoute element={<UserManagementPage />} />} />
+        <Route path="/admin/groups" element={<ProtectedRoute element={<GroupManagementPage />} />} />
+        <Route path="/admin/events" element={<ProtectedRoute element={<EventManagementPage />} />} />
+
+        {/* Profile (protected) */}
+        <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
+        <Route path="/profile/connections" element={<ProtectedRoute element={<ConnectionsPage />} />} />
+        <Route path="/profile/mission-details" element={<ProtectedRoute element={<MissionDetailsPage />} />} />
+        <Route path="/profile/testimony" element={<ProtectedRoute element={<TestimonyPage />} />} />
+
+        {/* Catch-all for unknown routes */}
+        <Route path="*" element={<p>404 - Page Not Found</p>} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
