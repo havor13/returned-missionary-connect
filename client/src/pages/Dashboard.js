@@ -1,7 +1,7 @@
 // client/src/pages/Dashboard.js
+import "../styles/Dashboard.css";
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Dashboard.css";
 
 function Dashboard() {
   return (
