@@ -1,6 +1,7 @@
 // server/routes/groups.js
 const express = require("express");
-const { createGroup, getGroups, joinGroup } = require("/controllers/groupController");
+const { createGroup, getGroups, joinGroup } = require("../controllers/groupController");
+
 
 const router = express.Router();
 

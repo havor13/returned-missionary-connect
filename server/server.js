@@ -1,6 +1,10 @@
 // server/server.js
+require("dotenv").config(); // must be first
+
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
+
 const connectDB = require("./config/db");
 const errorHandler = require("./middleware/errorHandler");
 
@@ -14,7 +18,7 @@ app.use(express.json());
 connectDB();
 
 // Serve uploaded files (profile photos, etc.)
-app.use("/uploads", express.static("server/uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Test route
 app.get("/", (req, res) => {

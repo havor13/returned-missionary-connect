@@ -3,11 +3,12 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/missionaryconnect", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("✅ MongoDB connected");
+    // Use environment variable for flexibility
+    const uri = process.env.MONGO_URI || "mongodb://localhost:27017/missionaryconnect";
+
+    await mongoose.connect(uri); // no deprecated options needed in Mongoose v6+
+
+    console.log("✅ MongoDB connected successfully");
   } catch (err) {
     console.error("❌ DB connection error:", err.message);
     process.exit(1);

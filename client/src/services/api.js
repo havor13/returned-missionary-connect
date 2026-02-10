@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// Create an axios instance with base URL
+// Create an axios instance with base URL from environment variable
 const api = axios.create({
-  baseURL: "http://localhost:5000/api", // backend base URL
+  baseURL: process.env.REACT_APP_API_URL, // backend base URL
   headers: {
     "Content-Type": "application/json",
   },
