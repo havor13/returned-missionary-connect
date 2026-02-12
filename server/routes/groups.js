@@ -1,12 +1,17 @@
-// server/routes/groups.js
 const express = require("express");
 const { createGroup, getGroups, joinGroup } = require("../controllers/groupController");
 
-
 const router = express.Router();
 
-router.post("/", createGroup);
-router.get("/", getGroups);
-router.post("/join", joinGroup);
+// Routes
+router.post("/", createGroup);   // Create a new group
+router.get("/", getGroups);      // Get all groups
+router.post("/join", joinGroup); // Join a group
+
+// Optional error handler for this router
+router.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong in groups routes!" });
+});
 
 module.exports = router;

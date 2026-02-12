@@ -1,9 +1,9 @@
-// server/server.js
 require("dotenv").config(); // must be first
 
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const helmet = require("helmet");
 
 const connectDB = require("./config/db");
 const errorHandler = require("./middleware/errorHandler");
@@ -13,6 +13,7 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(helmet());
 
 // Connect Database
 connectDB();
@@ -20,9 +21,14 @@ connectDB();
 // Serve uploaded files (profile photos, etc.)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// Health check route
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // Test route
 app.get("/", (req, res) => {
-  res.send("Returned Missionary Connect API is running...");
+  res.json({ message: "Returned Missionary Connect API is running..." });
 });
 
 // Import routes
