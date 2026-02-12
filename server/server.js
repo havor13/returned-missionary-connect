@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const helmet = require("helmet");
+const mongoose = require("mongoose"); // needed for dbtest route
 
 const connectDB = require("./config/db");
 const errorHandler = require("./middleware/errorHandler");
@@ -26,9 +27,24 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
-// Test route
+// Root test route
 app.get("/", (req, res) => {
   res.json({ message: "Returned Missionary Connect API is running..." });
+});
+
+// ✅ DB test route
+app.get("/dbtest", async (req, res) => {
+  try {
+    // Check if mongoose is connected
+    if (mongoose.connection.readyState !== 1) {
+      return res.json({ status: "❌ DB connection failed", error: "Not connected" });
+    }
+
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    res.json({ status: "✅ DB connected", collections });
+  } catch (err) {
+    res.json({ status: "❌ DB connection failed", error: err.message });
+  }
 });
 
 // Import routes
