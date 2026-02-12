@@ -1,0 +1,12 @@
+# Normalize line endings automatically
+* text=auto
+
+# Common file types in Node.js projects
+*.js text
+*.json text
+*.md text
+*.html text
+*.css text
+*.ts text
+*.tsx text
+*.sh text eol=lf
