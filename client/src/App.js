@@ -32,10 +32,10 @@ import EventsPage from "./pages/Events/EventsPage";
 import EventDetailPage from "./pages/Events/EventDetailPage";
 import CalendarEventsPage from "./pages/Events/CalendarEventsPage";
 
-// Simple ProtectedRoute wrapper
-const ProtectedRoute = ({ element }) => {
+// ✅ ProtectedRoute wrapper (simpler and reusable)
+const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
-  return token ? element : <Navigate to="/login" />;
+  return token ? children : <Navigate to="/login" />;
 };
 
 function App() {
@@ -55,24 +55,87 @@ function App() {
         <Route path="/events/:id" element={<EventDetailPage />} /> 
         <Route path="/events/calendar" element={<CalendarEventsPage />} />
 
-        {/* Messaging */}
-        <Route path="/messaging" element={<ProtectedRoute element={<MessagingPage />} />} />
+        {/* Messaging (protected) */}
+        <Route 
+          path="/messaging" 
+          element={
+            <ProtectedRoute>
+              <MessagingPage />
+            </ProtectedRoute>
+          } 
+        />
 
         {/* Auth */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
 
         {/* Admin (protected) */}
-        <Route path="/admin" element={<ProtectedRoute element={<AdminPage />} />} />
-        <Route path="/admin/users" element={<ProtectedRoute element={<UserManagementPage />} />} />
-        <Route path="/admin/groups" element={<ProtectedRoute element={<GroupManagementPage />} />} />
-        <Route path="/admin/events" element={<ProtectedRoute element={<EventManagementPage />} />} />
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin/users" 
+          element={
+            <ProtectedRoute>
+              <UserManagementPage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin/groups" 
+          element={
+            <ProtectedRoute>
+              <GroupManagementPage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin/events" 
+          element={
+            <ProtectedRoute>
+              <EventManagementPage />
+            </ProtectedRoute>
+          } 
+        />
 
         {/* Profile (protected) */}
-        <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
-        <Route path="/profile/connections" element={<ProtectedRoute element={<ConnectionsPage />} />} />
-        <Route path="/profile/mission-details" element={<ProtectedRoute element={<MissionDetailsPage />} />} />
-        <Route path="/profile/testimony" element={<ProtectedRoute element={<TestimonyPage />} />} />
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/profile/connections" 
+          element={
+            <ProtectedRoute>
+              <ConnectionsPage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/profile/mission-details" 
+          element={
+            <ProtectedRoute>
+              <MissionDetailsPage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/profile/testimony" 
+          element={
+            <ProtectedRoute>
+              <TestimonyPage />
+            </ProtectedRoute>
+          } 
+        />
 
         {/* Catch-all for unknown routes */}
         <Route path="*" element={<p>404 - Page Not Found</p>} />
