@@ -1,0 +1,7 @@
+# Ignore server-specific package files
+server/package.json
+server/pnpm-lock.yaml
+
+# Common ignores
+node_modules/
+client/build/

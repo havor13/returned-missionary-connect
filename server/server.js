@@ -1,10 +1,11 @@
-require("dotenv").config(); // must be first
+// Load environment variables first
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const helmet = require("helmet");
-const mongoose = require("mongoose"); // needed for dbtest route
+const mongoose = require("mongoose");
 
 const connectDB = require("./config/db");
 const errorHandler = require("./middleware/errorHandler");
@@ -16,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(helmet());
 
-// Connect Database
+// Connect to Database
 connectDB();
 
 // Serve uploaded files (profile photos, etc.)
@@ -27,15 +28,14 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
-// Root test route
+// Root route
 app.get("/", (req, res) => {
   res.json({ message: "Returned Missionary Connect API is running..." });
 });
 
-// ✅ DB test route
+// Database test route
 app.get("/dbtest", async (req, res) => {
   try {
-    // Check if mongoose is connected
     if (mongoose.connection.readyState !== 1) {
       return res.json({ status: "❌ DB connection failed", error: "Not connected" });
     }
